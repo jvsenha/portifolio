@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Linkedin, Github, ChevronDown, User, FileText, Briefcase, Calendar } from 'lucide-react';
 
-// Header Component
-const Header = () => {
+const Cabecalho = () => {
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -21,9 +20,8 @@ const Header = () => {
   );
 };
 
-// Hero Section Component
-const HeroSection = () => {
-  const tags = ['#BackEnd', '#Desenvolvimento', '#Sistemas', '#Automação', '#JavaScript', '#Python', '#Springboot', '#ReactJS'];
+const SecaoHashtag = () => {
+  const etiquetas = ['#BackEnd', '#Desenvolvimento', '#Sistemas', '#Automação', '#JavaScript', '#Python', '#Springboot', '#ReactJS'];
 
   return (
     <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-16 px-4 relative overflow-hidden">
@@ -31,9 +29,9 @@ const HeroSection = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="lg:w-1/2 mb-8 lg:mb-0">
             <div className="flex flex-wrap gap-2 mb-6">
-              {tags.map((tag, index) => (
-                <span key={index} className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
-                  {tag}
+              {etiquetas.map((etiqueta, indice) => (
+                <span key={indice} className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
+                  {etiqueta}
                 </span>
               ))}
             </div>
@@ -55,30 +53,29 @@ const HeroSection = () => {
   );
 };
 
-// Navigation Component
-const Navigation = ({ activeSection, setActiveSection }) => {
-  const navItems = [
-    { id: 'about', label: 'Sobre Mim', icon: User },
-    { id: 'resume', label: 'Currículo', icon: FileText },
-    { id: 'work', label: 'Projetos', icon: Briefcase }
+const Navegacao = ({ secaoAtiva, definirSecaoAtiva }) => {
+  const itensNav = [
+    { id: 'about', rotulo: 'Sobre Mim', icone: User },
+    { id: 'resume', rotulo: 'Currículo', icone: FileText },
+    { id: 'work', rotulo: 'Projetos', icone: Briefcase }
   ];
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-10">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex space-x-8">
-          {navItems.map(({ id, label, icon: Icon }) => (
+          {itensNav.map(({ id, rotulo, icone: Icone }) => (
             <button
               key={id}
-              onClick={() => setActiveSection(id)}
+              onClick={() => definirSecaoAtiva(id)}
               className={`flex items-center space-x-2 py-4 px-2 border-b-2 transition-colors ${
-                activeSection === id 
+                secaoAtiva === id 
                   ? 'border-blue-600 text-blue-600' 
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Icon className="w-4 h-4" />
-              <span className="font-medium">{label}</span>
+              <Icone className="w-4 h-4" />
+              <span className="font-medium">{rotulo}</span>
             </button>
           ))}
         </div>
@@ -87,8 +84,7 @@ const Navigation = ({ activeSection, setActiveSection }) => {
   );
 };
 
-// Profile Card Component
-const ProfileCard = () => {
+const CartaoPerfil = () => {
     return (
     <div className="  bg-gray-800 text-white rounded-2xl p-6 overflow-hidden">
       <div className=" inset-0 bg-gradient-to-br from-gray-700 to-gray-900 z-0"></div>
@@ -109,8 +105,7 @@ const ProfileCard = () => {
   );
 };
 
-// Introduction Card Component
-const IntroductionCard = () => {
+const CartaoIntroducao = () => {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border">
       <div className="flex items-center justify-between mb-4">
@@ -134,12 +129,11 @@ const IntroductionCard = () => {
   );
 };
 
-// Contact Card Component
-const ContactCard = () => {
-  const contacts = [
-    { icon: Mail, label: 'Email', value: 'joaosenha0@gmail.com', bg: 'bg-gray-800' },
-    { icon: Linkedin, label: 'LinkedIn', value: 'linkedin.com/in/joao-senha-141676218', bg: 'bg-blue-600' },
-    { icon: Github, label: 'GitHub', value: 'https://github.com/jvsenha', bg: 'bg-gray-400' }
+const CartaoContato = () => {
+  const contatos = [
+    { icone: Mail, rotulo: 'Email', valor: 'joaosenha0@gmail.com', fundo: 'bg-gray-800' },
+    { icone: Linkedin, rotulo: 'LinkedIn', valor: 'linkedin.com/in/joao-senha-141676218', fundo: 'bg-blue-600' },
+    { icone: Github, rotulo: 'GitHub', valor: 'https://github.com/jvsenha', fundo: 'bg-gray-400' }
   ];
 
   return (
@@ -149,10 +143,10 @@ const ContactCard = () => {
         <ChevronDown className="w-5 h-5 text-gray-400" />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {contacts.map((contact, index) => (
-          <div key={index} className={`${contact.bg} text-white rounded-xl p-4 text-center`}>
-            <contact.icon className="w-8 h-8 mx-auto mb-2" />
-            <p className="text-xs font-medium">{contact.value}</p>
+        {contatos.map((contato, indice) => (
+          <div key={indice} className={`${contato.fundo} text-white rounded-xl p-4 text-center`}>
+            <contato.icone className="w-8 h-8 mx-auto mb-2" />
+            <p className="text-xs font-medium">{contato.valor}</p>
           </div>
         ))}
       </div>
@@ -160,29 +154,41 @@ const ContactCard = () => {
   );
 };
 
-// Projects Section Component (you can customize further)
-const ProjectsSection = () => {
-  const projects = [
-    {
-      title: 'Sistema de Controle de Obras',
-      description: 'Sistema para gerenciamento de arquivos e projetos e obras.',
-      link: 'https://github.com/jvsenha/ApiEngerb'
-    },
-    {
-      title: 'Projetos em Java',
-      description: 'Projetos desenvolvidos em java. Durante o curso de Java da ETEC fernandópolis.',
-      link: 'https://github.com/jvsenha/Sistemas-em-java-web'
-    },
-  ];
+const SecaoProjetos = () => {
+  const [projetos, definirProjetos] = useState([])
+
+  useEffect(() => {
+    const buscarRepositorios = async () => {
+      try {
+        const resposta = await fetch(
+          'https://api.github.com/users/jvsenha/repos?per_page=100'
+        )
+        if (!resposta.ok) throw new Error(`Erro ${resposta.status}`)
+        const dados = await resposta.json()
+
+        const repositorios = dados.map(repo => ({
+          titulo: repo.name,
+          descricao: repo.description || 'Descrição não disponível',
+          link: repo.html_url
+        }))
+
+        definirProjetos(repositorios)
+      } catch (erro) {
+        console.error('Falha ao buscar repositórios:', erro)
+      }
+    }
+
+    buscarRepositorios()
+  }, [])
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-4">
       <h3 className="text-xl font-bold text-gray-900 mb-4">Projetos</h3>
-      {projects.map((project, i) => (
+      {projetos.map((projeto, i) => (
         <div key={i} className="border p-4 rounded hover:shadow-md transition-shadow">
-          <h4 className="font-semibold text-lg mb-2">{project.title}</h4>
-          <p className="text-gray-700 mb-2">{project.description}</p>
-          <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+          <h4 className="font-semibold text-lg mb-2">{projeto.titulo}</h4>
+          <p className="text-gray-700 mb-2">{projeto.descricao}</p>
+          <a href={projeto.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
             Ver no GitHub
           </a>
         </div>
@@ -191,13 +197,12 @@ const ProjectsSection = () => {
   );
 };
 
-// Experience Card Component
-const ExperienceCard = () => {
-  const experience = {
-    period: '2024 - Presente',
-    title: 'Técnico em Informática',
-    role: 'Manutenção de máquinas, automação de relatórios e suporte técnico',
-    company: 'Sindicato dos Servidores Públicos Municipais de Fernandópolis'
+const CartaoExperiencia = () => {
+  const experiencia = {
+    periodo: '2024 - Presente',
+    titulo: 'Técnico em Informática',
+    funcao: 'Manutenção de máquinas, automação de relatórios e suporte técnico',
+    empresa: 'Sindicato dos Servidores Públicos Municipais de Fernandópolis'
   };
 
   return (
@@ -205,47 +210,46 @@ const ExperienceCard = () => {
       <h3 className="text-xl font-bold text-gray-900 mb-4">Experiência</h3>
       <div className="flex items-center space-x-3 text-gray-600 text-sm mb-1">
         <Calendar className="w-5 h-5" />
-        <span>{experience.period}</span>
+        <span>{experiencia.periodo}</span>
       </div>
       <div>
-        <h4 className="font-semibold text-lg">{experience.title}</h4>
-        <p className="text-gray-700">{experience.role}</p>
-        <p className="text-gray-500 text-sm mt-1">{experience.company}</p>
+        <h4 className="font-semibold text-lg">{experiencia.titulo}</h4>
+        <p className="text-gray-700">{experiencia.funcao}</p>
+        <p className="text-gray-500 text-sm mt-1">{experiencia.empresa}</p>
       </div>
     </div>
   );
 };
 
-// Education Card Component
-const EducationCard = () => {
-  const educationList = [
+const CartaoEducacao = () => {
+  const listaEducacao = [
     {
-      period: '2023 - Atual',
-      title: 'FATEC Jales',
-      course: 'Tecnólogo em Sistemas para Internet',
-      gpa: 'Aprovado em 3º lugar no vestibular'
+      periodo: '2023 - Atual',
+      titulo: 'FATEC Jales',
+      curso: 'Tecnólogo em Sistemas para Internet',
+      nota: 'Aprovado em 3º lugar no vestibular'
     },
     {
-      period: '2020 - 2023',
-      title: 'ETEC Fernandópolis',
-      course: 'Informática para Internet',
-      gpa: 'Formado'
+      periodo: '2020 - 2023',
+      titulo: 'ETEC Fernandópolis',
+      curso: 'Informática para Internet',
+      nota: 'Formado'
     }
   ];
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-4">
       <h3 className="text-xl font-bold text-gray-900 mb-4">Educação</h3>
-      {educationList.map((edu, i) => (
+      {listaEducacao.map((edu, i) => (
         <div key={i} className="space-y-2">
           <div className="flex items-center space-x-3 text-gray-600 text-sm mb-1">
             <Calendar className="w-5 h-5" />
-            <span>{edu.period}</span>
+            <span>{edu.periodo}</span>
           </div>
           <div>
-            <h4 className="font-semibold text-lg">{edu.title}</h4>
-            <p className="text-gray-700">{edu.course}</p>
-            <p className="text-gray-500 text-sm mt-1">{edu.gpa}</p>
+            <h4 className="font-semibold text-lg">{edu.titulo}</h4>
+            <p className="text-gray-700">{edu.curso}</p>
+            <p className="text-gray-500 text-sm mt-1">{edu.nota}</p>
           </div>
         </div>
       ))}
@@ -253,42 +257,40 @@ const EducationCard = () => {
   );
 };
 
-
-// Main App Component
 export default function App() {
-  const [activeSection, setActiveSection] = useState('about');
+  const [secaoAtiva, definirSecaoAtiva] = useState('about');
 
   return (
     <>
-      <Header />
-      <HeroSection />
-      <Navigation activeSection={activeSection} setActiveSection={setActiveSection} />
+      <Cabecalho />
+      <SecaoHashtag />
+      <Navegacao secaoAtiva={secaoAtiva} definirSecaoAtiva={definirSecaoAtiva} />
 
       <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
-        {activeSection === 'about' && (
+        {secaoAtiva === 'about' && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <ProfileCard />
+              <CartaoPerfil />
               <div className="md:col-span-2 space-y-6">
-                <IntroductionCard />
-                <ContactCard />
+                <CartaoIntroducao />
+                <CartaoContato />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-              <ExperienceCard />
-              <EducationCard />
+              <CartaoExperiencia />
+              <CartaoEducacao />
             </div>
           </>
         )}
 
-        {activeSection === 'resume' && (
+        {secaoAtiva === 'resume' && (
           <>
-            <ExperienceCard />
-            <EducationCard />
+            <CartaoExperiencia />
+            <CartaoEducacao />
           </>
         )}
 
-        {activeSection === 'work' && <ProjectsSection />}
+        {secaoAtiva === 'work' && <SecaoProjetos />}
       </main>
     </>
   );
